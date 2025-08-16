@@ -12,19 +12,20 @@ import AppLayout from "./Component/AppLayout";
 import { createBrowserRouter } from "react-router-dom";
 import { margin } from '@mui/system';
 import { Table } from 'react-bootstrap';
+import Sidebar from './Component/Sidebar/Sidebar';
 
 function App() {
   return (
     <Router>
       <Navbar1 />
-      <Container  fluid  >
+      <Container  fluid style={{margin:0,padding:0}} >
         {/* <Card color=''>
           <CardBody className='my-2' style={{ textAlign: 'center', color: 'black' }}>
             <h1>Welcome To JUNO Contact Application</h1>
           </CardBody>
         </Card> */}
-        <Table><Row className='g-0  m-0' color='gray'>
-          <Col md={2} style={{margin:0}}><Menu /></Col>
+      <Row className='g-0  m-0' color='gray'>
+          <Col md={2} style={{margin:0}}><Sidebar /></Col>
           <Col md={10}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -35,7 +36,7 @@ function App() {
             </Routes>
           </Col>
         </Row>
-        </Table>
+       
  
       </Container>
     </Router>

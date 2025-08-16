@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 export default function Navbar() {
   return (
     <>
-       <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
+       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
         <div className="container-fluid">
           <span className="navbar-brand text-white" style={{ border: "0px" }}>
             Juno
