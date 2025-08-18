@@ -1,46 +1,81 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Box,
+  Button,
   TextField,
   Typography,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
-import CustomButton from "./Button/CustomButton";
+import Swal from "sweetalert2";   // ✅ Import SweetAlert2
+import AdminloginApi from "../api/AdminloginApi";
+import { showCustomAlert } from "./CustomAlert/CustomAlert";
+import { Navigate } from "react-router-dom";
 
 export default function LoginPage() {
-  const [form, setForm] = useState({ email: "", password: "", remember: false });
+  const [form, setForm] = useState({ username: "", password: "" });
   const [bgIndex, setBgIndex] = useState(0);
+  const navigate = useNavigate(); // <-- initialize here
 
-  // List of background images
+  // Background images
   const backgrounds = [
-    "https://i.pinimg.com/736x/68/8c/e8/688ce847f631de88b87f5ac684c389e9.jpg",
     "https://i.pinimg.com/736x/18/49/9d/18499d6d7cd263f568f1863bae7d9624.jpg",
-    "https://i.pinimg.com/1200x/c4/25/cc/c425cc071e8573bf42868d2977956b41.jpg",
-    "https://i.pinimg.com/736x/0d/a3/c0/0da3c0062d2c6923f007ac3e3afe757f.jpg"
-
   ];
 
-  // Change background every 5 seconds
+  // Auto change slide
   useEffect(() => {
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % backgrounds.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {   // ✅ make it async
     e.preventDefault();
     console.log("Login Data:", form);
+
+    try {
+      const res = await AdminloginApi(form);  // ✅ send form
+console.log("Response:", res);
+      if (res?.token) {
+ showCustomAlert({
+  title: "Login Successful!",
+  text: "Welcome back Admin 🚀",
+  icon: "success",
+  timer: 2000,
+  showConfirmButton: false,
+})
+  sessionStorage.setItem("admin_token", res.token);
+
+      setTimeout(() => {
+  navigate("/contactApi/dashboard");
+      }, 3000);
+
+
+
+        
+      } else {
+       showCustomAlert({
+          title: "Invalid Credentials",
+          text: "Please check your username and password",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      showCustomAlert({
+        title: "Login Failed",
+        text: "Something went wrong. Try again later.",
+        icon: "warning",
+      });
+    }
   };
 
   return (
@@ -63,43 +98,66 @@ export default function LoginPage() {
           bgcolor: "white",
         }}
       >
-        {/* Left side - Rotating Background image + text */}
+        {/* Left side - Slider */}
         <Box
           sx={{
             flex: 1,
-            backgroundImage: `url(${backgrounds[bgIndex]})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            color: "white",
+            position: "relative",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
-            p: 4,
-            transition: "background-image 1s ease-in-out",
+            justifyContent: "center",
+            color: "white",
+            overflow: "hidden",
           }}
         >
-          <Typography variant="h4" fontWeight="bold" gutterBottom>
-            Welcome Back!
-          </Typography>
-          <Typography variant="body1" align="center">
-            Log in to continue your journey 🚀
-          </Typography>
+          {backgrounds.map((bg, index) => (
+            <Box
+              key={index}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundImage: `url(${bg})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                transition: "opacity 1s ease-in-out",
+                opacity: index === bgIndex ? 1 : 0,
+              }}
+            />
+          ))}
+          <Box sx={{ position: "absolute", textAlign: "center", p: 4 }}>
+            <Typography variant="h4" fontWeight="bold" gutterBottom>
+              Welcome Back!
+            </Typography>
+            <Typography variant="body1">
+              Log in to continue your journey 🚀
+            </Typography>
+          </Box>
         </Box>
 
         {/* Right side - Login Form */}
-        <Box sx={{ flex: 1, p: 5, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <Box
+          sx={{
+            flex: 1,
+            p: 5,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
           <Typography variant="h5" fontWeight="bold" gutterBottom>
             Log In
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
-              name="email"
-              label="Email address"
+              name="username"
+              label="Username"
               fullWidth
               margin="normal"
               size="small"
-              value={form.email}
+              value={form.username}   // ✅ fix mismatch
               onChange={handleChange}
             />
             <TextField
@@ -113,19 +171,24 @@ export default function LoginPage() {
               onChange={handleChange}
             />
 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="remember"
-                  checked={form.remember}
-                  onChange={handleChange}
-                />
-              }
-              label="Remember me"
-              sx={{ mt: 1 }}
-            />
+  <Button
+    type="submit"         
+    variant="contained"   
+    color="primary"       
+    fullWidth             
+    sx={{
+      mt: 2,              
+      borderRadius: 2,    
+      fontWeight: "bold", 
+      padding: "10px 0",  
+      bgcolor: "black",
+      "&:hover": {    bgcolor: "#333"
+      }
+    }}
+  >
+    Login
+  </Button>
 
-            <CustomButton name="login" />
           </form>
         </Box>
       </Box>

@@ -1,0 +1,61 @@
+.custom-swal-popup {
+  width: 320px;
+  border-radius: 0px;
+  background: #ffffff !important;
+  padding: 25px;
+  color: #222;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Title */
+.custom-swal-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #111 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Text */
+.custom-swal-text {
+  font-size: 15px !important;
+  color: #444 !important;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.custom-swal-confirm {
+  background-color: #1E88E5 !important; /* blue */
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-weight: 500 !important;
+}
+
+.custom-swal-cancel {
+  background-color: #f44336 !important; /* red */
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-weight: 500 !important;
+  color: white !important;
+}
+
+/* Success / Info / Error icons */
+.custom-swal-popup .swal2-icon {
+  border-color: #111 !important;
+  color: #111 !important;
+}
+
+.custom-swal-popup .swal2-success-ring {
+  border: 4px solid #111 !important;
+}
+
+.custom-swal-popup .swal2-success-line-tip,
+.custom-swal-popup .swal2-success-line-long {
+  background-color: #111 !important;
+  height: 3px !important;
+}
+
+.custom-swal-popup .swal2-icon.swal2-info .swal2-icon-content,
+.custom-swal-popup .swal2-icon.swal2-error .swal2-icon-content {
+  color: #111 !important;
+}

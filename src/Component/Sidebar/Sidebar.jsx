@@ -18,6 +18,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -31,7 +32,7 @@ export default function Sidebar() {
         flexDirection: "column",
         justifyContent: "space-between",
         p: 2,
-        m:0
+        
       }}
     >
       {/* Top Section */}
@@ -40,7 +41,10 @@ export default function Sidebar() {
         <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
           <Typography variant="h4" fontWeight="bold">
             {/* Replace with logo image */}
-            <span style={{ fontFamily: "sans-serif",color:"white" }}>✔</span>
+            <Link to="addContact" style={{ textDecoration: "none", color: "white" }}>
+                        <span style={{ fontFamily: "sans-serif",color:"white" }}>✔</span>
+
+              </Link>
           </Typography>
         </Box>
 

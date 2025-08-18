@@ -1,94 +1,70 @@
-import RoundedTextField from "./RoundedTextField";
 import React from "react";
-import { Link } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import { IconButton } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
-import Login from "./Login";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  TextField,
+  Typography,
+  Avatar,
+  IconButton,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export default function Navbar() {
   return (
-    <>
-       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div className="container-fluid">
-          <span className="navbar-brand text-white" style={{ border: "0px" }}>
-            Juno
-          </span>
+    <AppBar
+      position="static"
+      sx={{
+        bgcolor: "white",
+        boxShadow: 1,
+        width: "100%",
+        p: 1,
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        {/* Search Box */}
+        <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+          <TextField
+            placeholder="Search..."
+            size="small"
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "30px",
+                bgcolor: "#f5f5f5",
+                pl: 1,
+                width: { xs: "150px", sm: "250px", md: "350px" },
+                "& fieldset": { border: "none" },
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <SearchIcon sx={{ color: "grey.600", mr: 1 }} />
+              ),
+            }}
+          />
+        </Box>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-
-          <div>
-            <TextField
-              id="searchField"
-              onKeyUp={() => alert("Key released!")}
-              placeholder="Search Here"
-              variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "50px",
-                  padding: 0,
-                  width: "600px",
-                  height: "30px",
-                  backgroundColor: "white",
-                  "& fieldset": { borderColor: "grey.400" },
-                  "&:hover fieldset": { borderColor: "primary.main" },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "primary.main",
-                    borderWidth: 2,
-                    color: "black",
-                  },
-                },
-              }}
-            />
-            <span id="researchBox" style={{ display: "none" }}></span>
-          </div>
-
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a
-                  className="nav-link active text-white"
-                  aria-current="page"
-                  href="/"
-                >
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-white" href="/about">
-                  About
-                </a>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/ContactCard">
-                  Contact
-                </Link>
-              </li>
-              <li className="nav-item">
-  <Link to="/login" className="nav-link text-white">
-    <IconButton aria-label="login" sx={{ color: 'white' }}>
-      <LoginIcon />
-    </IconButton>
-  </Link>
-</li>
-
-            </ul>
-          </div>
-        </div>
-      </nav>
-     
-
-    </>
+        {/* Profile Section */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Avatar
+            alt="User"
+            src="https://mui.com/static/images/avatar/1.jpg"
+          />
+          <Box sx={{ textAlign: "left" }}>
+            <Typography variant="caption" sx={{ color: "grey.600" }}>
+              Welcome back,
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              Lauro Morgado
+            </Typography>
+          </Box>
+          <IconButton>
+            <ArrowDropDownIcon />
+          </IconButton>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

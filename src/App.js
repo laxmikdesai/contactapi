@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, RouterProvider } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, RouterProvider, BrowserRouter } from 'react-router-dom';
 import Navbar1 from './Component/Navbar1';
 import ContactCard from './Component/contactCard';
 import Home from './Component/Home';
@@ -7,41 +7,63 @@ import AllContact from './Component/AllContact';
 import AddContact from './Component/AddContact';
 import Menu from './Menu';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Login from './Component/Login';
+import Login from './Component/NewLogin';
 import AppLayout from "./Component/AppLayout";
 import { createBrowserRouter } from "react-router-dom";
 import { margin } from '@mui/system';
 import { Table } from 'react-bootstrap';
 import Sidebar from './Component/Sidebar/Sidebar';
 
-function App() {
-  return (
-    <Router>
-      <Navbar1 />
-      <Container  fluid style={{margin:0,padding:0}} >
-        {/* <Card color=''>
-          <CardBody className='my-2' style={{ textAlign: 'center', color: 'black' }}>
-            <h1>Welcome To JUNO Contact Application</h1>
-          </CardBody>
-        </Card> */}
-      <Row className='g-0  m-0' color='gray'>
-          <Col md={2} style={{margin:0}}><Sidebar /></Col>
-          <Col md={10}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/view" element={<AllContact />} />
-              <Route path="/add" element={<AddContact />} />
-              <Route path="/login" element={<Login />} />
+// function App() {
+//   return (
+//     <Router>
+//       <Navbar1 />
+//       <Container  fluid style={{margin:0,padding:0}} >
+//         {/* <Card color=''>
+//           <CardBody className='my-2' style={{ textAlign: 'center', color: 'black' }}>
+//             <h1>Welcome To JUNO Contact Application</h1>
+//           </CardBody>
+//         </Card> */}
+//       <Row className='g-0  m-0' color='gray'>
+//           <Col md={2} style={{margin:0}}><Sidebar /></Col>
+//           <Col md={10}>
+//             <Routes>
+//               <Route path="/" element={<Home />} />
+//               <Route path="/view" element={<AllContact />} />
+//               <Route path="/add" element={<AddContact />} />
+//               <Route path="/login" element={<Login />} />
 
-            </Routes>
-          </Col>
-        </Row>
+//             </Routes>
+//           </Col>
+//         </Row>
        
  
-      </Container>
-    </Router>
-  );
+//       </Container>
+//     </Router>
+
+// );}
+
+
+import ContactApiRoutes from './routs/ContactApiRoutes';
+
+const App = () => {
+  return (
+    <div>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/contactApi/*" element={<ContactApiRoutes />} />
+
+              </Routes>
+
+      </BrowserRouter>
+
+
+
+    </div>
+  )
 }
+
+
 
 
 //  function App = ()=> {

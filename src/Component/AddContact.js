@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { Button, Container } from "react-bootstrap";
-import { Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import {
+  Container,
+  TextField,
+  Button,
+  Box,
+  Typography,
+} from "@mui/material";
 import { saveAllContactToServer } from "../api/ContactApi";
 
 const AddContact = () => {
@@ -11,7 +16,7 @@ const AddContact = () => {
     email: "",
     address: "",
     status: "",
-    photoUrl: ""
+    photoUrl: "",
   });
 
   const handleChange = (e) => {
@@ -21,126 +26,108 @@ const AddContact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const payload = {
-      ...contact,
-      dob: new Date(contact.dob) // ensure proper date conversion
-    };
-
+    const payload = { ...contact, dob: new Date(contact.dob) };
     console.log("Sending Payload:", payload);
     saveAllContactToServer(payload);
   };
+
   const handleUpdate = (e) => {
     e.preventDefault();
-
-    const payload = {
-      ...contact,
-      dob: new Date(contact.dob) // ensure proper date conversion
-    };
-
-    console.log("Sending Payload:", payload);
+    const payload = { ...contact, dob: new Date(contact.dob) };
+    console.log("Updating Payload:", payload);
     saveAllContactToServer(payload);
   };
 
-
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for="fullName">Full Name</Label>
-          <Input
-            type="text"
-            id="fullName"
-            name="fullName"
-            placeholder="Enter full name"
-            value={contact.fullName}
-            onChange={handleChange}
-          />
-        </FormGroup>
+    <Container maxWidth="sm" sx={{ mt: 4 ,bgcolor:"yellow"}}>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+        Add New Contact
+      </Typography>
 
-        <FormGroup>
-          <Label for="dob">Date of Birth</Label>
-          <Input
-            type="date"
-            id="dob"
-            name="dob"
-            value={contact.dob}
-            onChange={handleChange}
-          />
-        </FormGroup>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        <TextField
+          label="Full Name"
+          name="fullName"
+          value={contact.fullName}
+          onChange={handleChange}
+          fullWidth
+        />
 
-        <FormGroup>
-          <Label for="contactNo">Mobile Number</Label>
-          <Input
-            type="text"
-            id="contactNo"
-            name="contactNo"
-            placeholder="Enter mobile number"
-            value={contact.contactNo}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Date of Birth"
+          name="dob"
+          type="date"
+          value={contact.dob}
+          onChange={handleChange}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
 
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter email"
-            value={contact.email}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Mobile Number"
+          name="contactNo"
+          value={contact.contactNo}
+          onChange={handleChange}
+          fullWidth
+        />
 
-        <FormGroup>
-          <Label for="address">Address</Label>
-          <Input
-            type="textarea"
-            id="address"
-            name="address"
-            placeholder="Enter address"
-            value={contact.address}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Email"
+          name="email"
+          type="email"
+          value={contact.email}
+          onChange={handleChange}
+          fullWidth
+        />
 
-        <FormGroup>
-          <Label for="status">Status</Label>
-          <Input
-            type="text"
-            id="status"
-            name="status"
-            placeholder="Enter status"
-            value={contact.status}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Address"
+          name="address"
+          value={contact.address}
+          onChange={handleChange}
+          fullWidth
+          multiline
+          rows={3}
+        />
 
-        <FormGroup>
-          <Label for="photoUrl">Photo URL</Label>
-          <Input
-            type="text"
-            id="photoUrl"
-            name="photoUrl"
-            placeholder="Enter photo URL"
-            value={contact.photoUrl}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Status"
+          name="status"
+          value={contact.status}
+          onChange={handleChange}
+          fullWidth
+        />
 
-        <Container className="text-center mt-3">
-          <Button variant="success" size="sm" type="submit" style={{ marginLeft: "20px" }}>
+        <TextField
+          label="Photo URL"
+          name="photoUrl"
+          value={contact.photoUrl}
+          onChange={handleChange}
+          fullWidth
+        />
+
+        {/* Buttons */}
+        <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
+          <Button type="submit" variant="contained" color="success">
             Submit
           </Button>
-          <Button variant="danger" size="sm" type="button" style={{ marginLeft: "20px" }}>
+          <Button type="button" variant="contained" color="error">
             Delete
           </Button>
-          <Button variant="warning" size="sm" type="button" style={{ marginLeft: "20px" }}>
+          <Button
+            type="button"
+            variant="contained"
+            color="warning"
+            onClick={handleUpdate}
+          >
             Update
           </Button>
-        </Container>
-      </Form>
+        </Box>
+      </Box>
     </Container>
   );
 };
