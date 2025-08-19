@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  TextField,
-  Button,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Container, TextField, Button, Box, Typography, Divider } from "@mui/material";
 import { saveAllContactToServer } from "../api/ContactApi";
 
 const AddContact = () => {
@@ -19,6 +13,16 @@ const AddContact = () => {
     photoUrl: "",
   });
 
+  const fields = [
+    { label: "Full Name", name: "fullName", type: "text" },
+    { label: "Date of Birth", name: "dob", type: "date" },
+    { label: "Mobile Number", name: "contactNo", type: "text" },
+    { label: "Email", name: "email", type: "email" },
+    { label: "Address", name: "address", type: "text", multiline: true, rows: 3 },
+    { label: "Status", name: "status", type: "text" },
+    { label: "Photo URL", name: "photoUrl", type: "text" },
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContact({ ...contact, [name]: value });
@@ -31,100 +35,67 @@ const AddContact = () => {
     saveAllContactToServer(payload);
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    const payload = { ...contact, dob: new Date(contact.dob) };
-    console.log("Updating Payload:", payload);
-    saveAllContactToServer(payload);
-  };
-
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 ,bgcolor:"yellow"}}>
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+    <Container sx={{ width: "100%", p: 2 }}>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{ fontWeight: "bold", mb: 1 }}
+      >
         Add New Contact
       </Typography>
+
+  <Divider sx={{ mb: 4,mt:2, borderBottomWidth: 2, bgcolor: "gray" }} />
 
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          boxShadow: 2,
+          bgcolor: "#fff",
+          p: 4,
+          borderRadius: 2,
+        }}
       >
-        <TextField
-          label="Full Name"
-          name="fullName"
-          value={contact.fullName}
-          onChange={handleChange}
-          fullWidth
-        />
+        {fields.map((field) => (
+          <Box sx={{ flex: "1 1 30%", minWidth: "250px" }} key={field.name}>
+            <TextField
+              label={field.label}
+              name={field.name}
+              type={field.type}
+              value={contact[field.name]}
+              onChange={handleChange}
+              fullWidth
+              {...(field.multiline ? { multiline: true, rows: field.rows } : {})}
+              InputLabelProps={field.type === "date" ? { shrink: true } : {}}
+            />
+          </Box>
+        ))}
 
-        <TextField
-          label="Date of Birth"
-          name="dob"
-          type="date"
-          value={contact.dob}
-          onChange={handleChange}
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-        />
-
-        <TextField
-          label="Mobile Number"
-          name="contactNo"
-          value={contact.contactNo}
-          onChange={handleChange}
-          fullWidth
-        />
-
-        <TextField
-          label="Email"
-          name="email"
-          type="email"
-          value={contact.email}
-          onChange={handleChange}
-          fullWidth
-        />
-
-        <TextField
-          label="Address"
-          name="address"
-          value={contact.address}
-          onChange={handleChange}
-          fullWidth
-          multiline
-          rows={3}
-        />
-
-        <TextField
-          label="Status"
-          name="status"
-          value={contact.status}
-          onChange={handleChange}
-          fullWidth
-        />
-
-        <TextField
-          label="Photo URL"
-          name="photoUrl"
-          value={contact.photoUrl}
-          onChange={handleChange}
-          fullWidth
-        />
-
-        {/* Buttons */}
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
-          <Button type="submit" variant="contained" color="success">
-            Submit
-          </Button>
-          <Button type="button" variant="contained" color="error">
-            Delete
-          </Button>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            gap: 2,
+            mt: 3,
+          }}
+        >
           <Button
-            type="button"
+            type="submit"
             variant="contained"
-            color="warning"
-            onClick={handleUpdate}
+            sx={{
+              borderRadius: 2,
+              px: 4,
+              py: 1.5,
+              bgcolor: "#000",
+              "&:hover": { bgcolor: "#333" },
+            }}
           >
-            Update
+            Submit
           </Button>
         </Box>
       </Box>

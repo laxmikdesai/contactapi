@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Avatar,
@@ -10,17 +10,23 @@ import {
   ListItemText,
   Divider,
   Button,
+  Collapse,
 } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CategoryIcon from "@mui/icons-material/Category";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link } from "react-router-dom";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 export default function Sidebar() {
+  const [openContact, setOpenContact] = useState(false);
+
+  const handleContactClick = () => {
+    setOpenContact(!openContact);
+  };
+
   return (
     <Box
       sx={{
@@ -32,25 +38,25 @@ export default function Sidebar() {
         flexDirection: "column",
         justifyContent: "space-between",
         p: 2,
-        
       }}
     >
       {/* Top Section */}
-      <Box  sx={{ color:"white", bgcolor: "black" }}>
+      <Box sx={{ color: "white" }}>
         {/* Logo */}
         <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
           <Typography variant="h4" fontWeight="bold">
-            {/* Replace with logo image */}
-            <Link to="addContact" style={{ textDecoration: "none", color: "white" }}>
-                        <span style={{ fontFamily: "sans-serif",color:"white" }}>✔</span>
-
-              </Link>
+JUNO
           </Typography>
         </Box>
 
         {/* User Info */}
         <Box
-          sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 3 ,bgcolor: "black",}}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mb: 3,
+          }}
         >
           <Avatar
             src="https://mui.com/static/images/avatar/2.jpg"
@@ -65,88 +71,80 @@ export default function Sidebar() {
         </Box>
 
         {/* Menu Items */}
-        <List sx={{bgcolor: "black" }}  >
+        <List sx={{ bgcolor: "black", color: "white" }}>
+          {/* Dashboard */}
           <ListItem disablePadding>
-            <ListItemButton sx={{  borderRadius: 1 }}>
+            <ListItemButton sx={{ borderRadius: 1 }} component={Link} to="/">
               <ListItemIcon>
-                <DashboardIcon sx={{color: "black" }} />
+                <DashboardIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Dashboard"/>
+              <ListItemText primary="Dashboard" />
             </ListItemButton>
           </ListItem>
+
+          {/* Contact with sub-items */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={handleContactClick} sx={{ borderRadius: 1 }}>
               <ListItemIcon>
-                <ShoppingCartIcon sx={{ color: "white" }} />
+                <DashboardIcon sx={{ color: "white" }} />
               </ListItemIcon>
-              <ListItemText primary="Orders" />
+              <ListItemText primary="Contact" />
+              {openContact ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <CategoryIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Products" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SwapHorizIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Transfers" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <ReceiptIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Statements" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
+
+          <Collapse in={openContact} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ pl: 4 }}>
+              <ListItem disablePadding>
+  <ListItemButton component={Link} to="/dashboard/addContact" sx={{ borderRadius: 1 }}>
+                  <ListItemIcon>
+                    <AddIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Contact" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton
+                  sx={{ borderRadius: 1 }}
+                  component={Link}
+                  to="/manageContact"
+                >
+                  <ListItemIcon>
+                    <ManageAccountsIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Manage Contact" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Collapse>
         </List>
-         <Typography variant="body2"  align="center">
-          __________________
-        </Typography>
-         <Typography variant="body2"  align="center">
+
+        <Divider sx={{ my: 2, bgcolor: "gray" }} />
+
+        {/* Support Section */}
+        <Typography variant="body2" align="center">
           Need Help?
         </Typography>
         <Typography variant="body2" align="center">
           +1-202-555-0139
         </Typography>
-        <Typography variant="body2"  align="center" mb={2}>
+        <Typography variant="body2" align="center" mb={2}>
           support@nike.us
         </Typography>
         <Button
           variant="contained"
           startIcon={<ExitToAppIcon />}
           sx={{
-          bgcolor:"white",
+            bgcolor: "white",
             color: "#222",
             width: "100%",
-            "&:hover": { bgcolor: "black" },
-            border:"0"
+            "&:hover": { bgcolor: "black", color: "white" },
+            border: "0",
           }}
         >
           Log Out
         </Button>
-
-
-
       </Box>
-
-      {/* Bottom Section */}
-    
     </Box>
   );
 }

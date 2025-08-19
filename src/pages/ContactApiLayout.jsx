@@ -3,9 +3,11 @@ import Sidebar from "../Component/Sidebar/Sidebar";
 import Navbar from "../Component/Navbar1";
 import { Box } from "@mui/material";
 import AddContact from "../Component/AddContact";
+import { Outlet } from "react-router-dom";
 
 const ContactApiLayout = () => {
   return (
+    
     <Box sx={{ display: "flex", m:0, width: "100%", minHeight: "100vh" }}>
       {/* Sidebar (2/12 = ~16.7%) */}
       <Box
@@ -16,6 +18,8 @@ const ContactApiLayout = () => {
         }}
       >
         <Sidebar />
+                <Outlet />
+
       </Box>
 
       {/* Main Section (10/12 = ~83.3%) */}
@@ -26,8 +30,7 @@ const ContactApiLayout = () => {
         </Box>
 
         {/* Page Content */}
-        <Box sx={{ p: 2 }}>
-            //here i want to rende add addContact component
+        <Box sx={{ p: 2}}>
       </Box>
       </Box>
     </Box>
